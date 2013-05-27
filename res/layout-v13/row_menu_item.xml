@@ -26,7 +26,7 @@
         android:textAppearance="@android:style/TextAppearance.Medium"
         android:visibility="gone"
         android:background="#767676"
-        android:textColor="#c6c6c6" />
+        android:textColor="#000000" />
     <TextView
         android:id="@+id/row_textview"
         android:layout_width="0dp"
