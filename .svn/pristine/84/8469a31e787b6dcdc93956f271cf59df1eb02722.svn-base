@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    android:showDividers="middle"
+    android:divider="#ffffff"
+    android:dividerPadding="10dp">
+
+    <ImageView
+        android:id="@+id/row_icon"
+        android:paddingLeft="25dp"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:clickable="true" />
+
+    <TextView android:id="@+id/row_header"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:visibility="gone"
+        android:background="#767676"
+        android:textColor="#000000" />
+    <TextView android:id="@+id/row_subHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:visibility="gone"
+        android:textColor="#585757" />
+	<TextView android:id="@+id/row_subTextView"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:padding="5dp"
+	    android:visibility="gone"
+	    android:textColor="#cecece"
+	    android:layout_marginLeft="10dp" />"
+    <TextView
+        android:id="@+id/row_textview"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Medium Text"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:visibility="gone"
+        android:textColor="#ffffff"
+        android:clickable="true"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless" />
+    
+    <EditText 
+        android:id="@+id/row_edittext"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:textColor="#ffffff" />
+    
+    <Button android:id="@+id/row_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:visibility="gone" />
+    
+    <Button android:id="@+id/row_button_borderless"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <Spinner 
+        android:id="@+id/row_spinner"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:drawSelectorOnTop="true"
+        android:contentDescription="Hello World"
+        android:textColor="#ffffff" />
+
+</LinearLayout>
