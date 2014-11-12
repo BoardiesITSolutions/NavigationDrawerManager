@@ -1,0 +1,80 @@
+package com.BoardiesITSolutions.NavigationDrawerManager;
+
+/**
+ * 
+ * @author Chris Board
+ * Copyright Boardies IT Solutions 2013
+ * 
+ * This software is provided as OpenSource and you are able to modify
+ * it in any way you see fit. The only thing that we request is that
+ * all copyright notices are retained
+ *
+ */
+
+import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
+
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+public class AppCompatNavigationManager
+{
+
+	ActionBarActivity activity;
+	Context context;
+	DrawerLayout drawerLayout;
+	int drawerOpen;
+	int drawerClosed;
+	int drawerIcon;
+	
+	public AppCompatNavigationManager(ActionBarActivity activity, DrawerLayout drawerLayout)
+	{
+		this.activity = activity;
+		this.drawerLayout = drawerLayout;
+		this.drawerIcon = R.drawable.ic_drawer;
+	}
+	
+	public AppCompatNavigationManager(ActionBarActivity activity, DrawerLayout drawerLayout, int drawerIcon)
+	{
+		this.activity = activity;
+		this.drawerLayout = drawerLayout;
+		this.drawerIcon = drawerIcon;
+	}
+	
+	public ActionBarDrawerToggle setDrawerToggle(Toolbar toolbar)
+	{	
+		ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+				activity, 
+				drawerLayout, 
+				toolbar,
+				drawerOpen, 
+				drawerClosed)
+		{
+			public void onDrawerClosed(View view)
+			{
+                super.onDrawerClosed(view);
+			}
+			
+			public void onDrawerOpened(View drawerView)
+			{
+                super.onDrawerOpened(drawerView);
+			}
+		};
+		
+		return actionBarDrawerToggle;
+	}
+	
+	public void prepareActionBar()
+	{
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+		{
+			//activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			activity.getSupportActionBar().setHomeButtonEnabled(true);
+            activity.getSupportActionBar().setIcon(R.drawable.ic_drawer);
+		}
+	}
+}

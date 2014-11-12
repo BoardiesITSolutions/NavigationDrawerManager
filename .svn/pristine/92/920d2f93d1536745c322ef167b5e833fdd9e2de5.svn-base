@@ -1,0 +1,105 @@
+package com.BoardiesITSolutions.NavigationDrawerManager;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Chris on 06/11/2014.
+ */
+public class NavTextView extends TextView implements View.OnClickListener
+{
+    private static List<NavTextView> navTextViewList = new ArrayList<NavTextView>();
+
+    OnClickListener wrappedOnClickListener;
+    Context context;
+    OnClickListener onClickListener;
+    LinearLayout linearLayout;
+    ImageView imageView;
+    ListView listView;
+
+    public NavTextView(Context context) {
+        super(context);
+        super.setOnClickListener(this);
+        this.context = context;
+        init(context);
+        init(context);
+    }
+
+    public NavTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        super.setOnClickListener(this);
+        this.context = context;
+        init(context);
+    }
+
+    public NavTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        super.setOnClickListener(this);
+        this.context = context;
+        init(context);
+    }
+
+    public NavTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        init(context);
+    }
+
+    private void init(Context context)
+    {
+        super.setOnClickListener(this);
+        this.context = context;
+        navTextViewList.add(this);
+    }
+
+    @Override
+    public void setOnClickListener(OnClickListener l)
+    {
+        if (l != null) {
+            wrappedOnClickListener = l;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d("NAVTEXTVIEW", "I'VE BEEN CLICKED");
+        if (this.getParent() instanceof LinearLayout)
+        {
+            linearLayout = (LinearLayout)this.getParent();
+        }
+        if (linearLayout != null)
+        {
+            int childrenCount = linearLayout.getChildCount();
+            for (int i = 0; i < childrenCount; i++)
+            {
+                if (linearLayout.getChildAt(i) instanceof ImageView)
+                {
+                    imageView = (ImageView)linearLayout.getChildAt(i);
+                }
+            }
+        }
+
+        GradientDrawable shapeColour = (GradientDrawable)imageView.getBackground();
+        shapeColour.setColor(getResources().getColor(R.color.primaryColor));
+
+        this.setTextColor(context.getResources().getColor(R.color.primaryColor));
+
+        if (wrappedOnClickListener != null)
+        {
+            wrappedOnClickListener.onClick(v);
+        }
+    }
+}

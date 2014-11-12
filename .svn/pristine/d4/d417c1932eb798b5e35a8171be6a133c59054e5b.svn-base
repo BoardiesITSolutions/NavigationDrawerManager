@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">NavigationDrawerManager</string>
+    <color name="headingColour">#a2a2a2</color>
+    <color name="navItemColor">#000000</color>
+    <color name="primaryColor">#d90000</color>
+    <color name="navImageIconColor">#666666</color>
+</resources>

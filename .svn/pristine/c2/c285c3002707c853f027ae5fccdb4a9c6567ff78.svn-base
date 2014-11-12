@@ -1,0 +1,238 @@
+package com.BoardiesITSolutions.NavigationDrawerManager;
+
+/**
+ * 
+ * @author Chris Board
+ * Copyright Boardies IT Solutions 2013
+ * 
+ * This software is provided as OpenSource and you are able to modify
+ * it in any way you see fit. The only thing that we request is that
+ * all copyright notices are retained
+ *
+ */
+
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.opengl.Visibility;
+import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class NavigationManagerAdapter extends ArrayAdapter<NavigationMenuItem>{
+
+    public static List<NavTextView> navTextViewList = new ArrayList<NavTextView>();
+    Context context;
+
+	public NavigationManagerAdapter(Context context)
+	{
+		super(context, 0);
+        this.context = context;
+        if (NavigationManagerAdapter.navTextViewList == null)
+        {
+            NavigationManagerAdapter.navTextViewList = new ArrayList<NavTextView>();
+        }
+	}
+	
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
+        ImageView icon = null;
+		try
+		{
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_menu_item, null);
+            if (getItem(position).guiType != NavigationMenuItem.GuiType.DIVIDER) {
+                if (getItem(position).iconRes != -1) {
+                    icon = (ImageView) convertView.findViewById(R.id.row_icon);
+                    icon.setTag(getItem(position).iconRes);
+                    icon.setVisibility(View.VISIBLE);
+                    icon.setImageResource(getItem(position).iconRes);
+                } else {
+                    if (getItem(position).guiType != NavigationMenuItem.GuiType.HEADER) {
+                        icon = (ImageView) convertView.findViewById(R.id.row_icon);
+                        icon.setVisibility(View.VISIBLE);
+                        icon.setTag(context.getResources().getDrawable(R.drawable.menu_icon));
+                        Drawable drawable = context.getResources().getDrawable(R.drawable.menu_icon);
+                        drawable.setColorFilter(context.getResources().getColor(R.color.navImageIconColor), PorterDuff.Mode.SRC_OVER);
+                        icon.setImageDrawable(drawable);
+                    }
+                }
+            }
+			
+			switch (getItem(position).guiType)
+			{
+				case TEXTVIEW:
+					NavTextView standardTextView = (NavTextView)convertView.findViewById(R.id.row_textview);
+                    if (icon != null)
+                    {
+                        //If an icon is being used then bring the text view back in line with the correct
+                        //margin. E.g. 72dp - 16dp = 56dp.
+                        //Correct margin values can be found at http://www.google.com/design/spec/patterns/navigation-drawer.html?utm_campaign=md-update-1114&utm_source=gdbc&utm_medium=blog
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                        params.setMargins(56, 0, 0, 0);
+                        final float scale = context.getResources().getDisplayMetrics().density;
+                        int pixels = (int)(48 * scale + 0.5f);
+                        params.height = pixels;
+                        standardTextView.setLayoutParams(params);
+                    }
+					standardTextView.setText(getItem(position).menuName);
+					standardTextView.setVisibility(View.VISIBLE);
+					if (getItem(position).onClickListener != null)
+					{
+						standardTextView.setOnClickListener(getItem(position).onClickListener);
+					}
+					else
+					{
+						standardTextView.setFocusable(false);
+						standardTextView.setFocusableInTouchMode(false);
+						standardTextView.setClickable(false);
+					}
+					if (getItem(position).tag != null)
+					{
+						standardTextView.setTag(getItem(position).tag);
+					}
+                    if (getItem(position).selected)
+                    {
+                        standardTextView.setNavTextViewAsSelected();
+                    }
+                    NavigationManagerAdapter.navTextViewList.add(standardTextView);
+					break;
+				case HEADER:
+					TextView textViewHeader = (TextView)convertView.findViewById(R.id.row_header);
+					textViewHeader.setText(getItem(position).menuName);
+					textViewHeader.setVisibility(View.VISIBLE);
+					break;
+				case SUBHEADER:
+					TextView textViewSubHeader = (TextView)convertView.findViewById(R.id.row_subHeader);
+					textViewSubHeader.setText(getItem(position).menuName);
+					textViewSubHeader.setVisibility(View.VISIBLE);
+					break;
+				case SUB_TEXTVIEW:
+					TextView textViewSubItem = (TextView)convertView.findViewById(R.id.row_subTextView);
+					textViewSubItem.setText(getItem(position).menuName);
+					textViewSubItem.setVisibility(View.VISIBLE);
+					textViewSubItem.setOnClickListener(getItem(position).onClickListener);
+					textViewSubItem.setTag(getItem(position).tag);
+					break;
+				case SWITCH:
+					if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+					{
+						Switch switchButton = (Switch)convertView.findViewById(R.id.row_switch);
+                        if (icon != null)
+                        {
+                            //If an icon is being used then bring the text view back in line with the correct
+                            //margin. E.g. 72dp - 16dp = 56dp.
+                            //Correct margin values can be found at http://www.google.com/design/spec/patterns/navigation-drawer.html?utm_campaign=md-update-1114&utm_source=gdbc&utm_medium=blog
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                            params.setMargins(56, 0, 0, 0);
+                            final float scale = context.getResources().getDisplayMetrics().density;
+                            int pixels = (int)(48 * scale + 0.5f);
+                            params.height = pixels;
+                            switchButton.setLayoutParams(params);
+                        }
+                        if (getItem(position).summaryOn != null && getItem(position).summaryOff != null) {
+                            switchButton.setShowText(true);
+                            switchButton.setTextOn(getItem(position).summaryOn);
+                            switchButton.setTextOff(getItem(position).summaryOff);
+                        }
+						switchButton.setText(getItem(position).menuName);
+						if (getItem(position).tag != null)
+						{
+							switchButton.setTag(getItem(position).tag);
+						}
+						switchButton.setVisibility(View.VISIBLE);
+						switchButton.setOnCheckedChangeListener(getItem(position).onCheckedChangeListener);
+						switchButton.setChecked(getItem(position).defaultValue);
+					}
+					else
+					{
+						throw new ComponentNotSupportedOnApiException("Switches are not supported in API Version: " + android.os.Build.VERSION.SDK_INT);
+					}
+					break;
+				case TEXTVIEW_SUMMARY:
+					NavTextView spannedTextView = (NavTextView)convertView.findViewById(R.id.row_textview);
+                    if (icon != null)
+                    {
+                        //If an icon is being used then bring the text view back in line with the correct
+                        //margin. E.g. 72dp - 16dp = 56dp.
+                        //Correct margin values can be found at http://www.google.com/design/spec/patterns/navigation-drawer.html?utm_campaign=md-update-1114&utm_source=gdbc&utm_medium=blog
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                        params.setMargins(56, 0, 0, 0);
+                        final float scale = context.getResources().getDisplayMetrics().density;
+                        int pixels = (int)(48 * scale + 0.5f);
+                        params.height = pixels;
+                        spannedTextView.setLayoutParams(params);
+                    }
+					String menuTitle = getItem(position).menuName;
+					String summary = getItem(position).summary;
+					spannedTextView.setText(Html.fromHtml(menuTitle + "<br /><small><font color='#9f9f9f'>" + summary + "</font></small>"));
+					spannedTextView.setVisibility(View.VISIBLE);
+					if (getItem(position).onClickListener != null)
+					{
+						spannedTextView.setOnClickListener(getItem(position).onClickListener);
+					}
+					else
+					{
+						spannedTextView.setFocusable(false);
+						spannedTextView.setFocusableInTouchMode(false);
+						spannedTextView.setClickable(false);
+					}
+					if (getItem(position).tag != null)
+					{
+						spannedTextView.setTag(getItem(position).tag);
+					}
+                    NavigationManagerAdapter.navTextViewList.add(spannedTextView);
+					break;
+				case HEADER_SUMMARY:
+					TextView spannedHeader = (TextView)convertView.findViewById(R.id.row_header);
+					String headerTitle = getItem(position).menuName;
+					String headerSummary= getItem(position).summary;
+					spannedHeader.setText(Html.fromHtml(headerTitle + "<br /><small><font color='#000000'>" + headerSummary + "</font></small>"));
+					spannedHeader.setVisibility(View.VISIBLE);
+					break;
+				case BUTTON:
+					Button button = null;
+					if (getItem(position).isBorderless)
+					{
+						button = (Button)convertView.findViewById(R.id.row_button_borderless);
+					}
+					else
+					{
+						button = (Button)convertView.findViewById(R.id.row_button);
+					}
+					button.setText(getItem(position).menuName);
+					button.setOnClickListener(getItem(position).onClickListener);
+					button.setVisibility(View.VISIBLE);
+					button.setFocusable(false);
+					button.setFocusableInTouchMode(false);
+					button.setClickable(false);
+					break;
+                case DIVIDER:
+                    View view = (View)convertView.findViewById(R.id.row_divider);
+                    view.setVisibility(View.VISIBLE);
+                    break;
+			}
+		}
+		catch (ComponentNotSupportedOnApiException ex)
+		{
+			Log.e("Adapter Error", ex.toString());
+		}
+		return convertView;
+	}
+
+}
