@@ -16,29 +16,29 @@ import android.app.Activity;
 import android.content.Context;
 
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 public class AppCompatNavigationManager
 {
 
-	ActionBarActivity activity;
+	AppCompatActivity activity;
 	Context context;
 	DrawerLayout drawerLayout;
 	int drawerOpen;
 	int drawerClosed;
 	int drawerIcon;
 	
-	public AppCompatNavigationManager(ActionBarActivity activity, DrawerLayout drawerLayout)
+	public AppCompatNavigationManager(AppCompatActivity activity, DrawerLayout drawerLayout)
 	{
 		this.activity = activity;
 		this.drawerLayout = drawerLayout;
 		this.drawerIcon = R.drawable.ic_drawer;
 	}
 	
-	public AppCompatNavigationManager(ActionBarActivity activity, DrawerLayout drawerLayout, int drawerIcon)
+	public AppCompatNavigationManager(AppCompatActivity activity, DrawerLayout drawerLayout, int drawerIcon)
 	{
 		this.activity = activity;
 		this.drawerLayout = drawerLayout;

@@ -3,7 +3,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        'com.android.tools.build:gradle:0.14.0'
+        //'com.android.tools.build:gradle:0.14.0'
     }
 }
 
@@ -11,26 +11,27 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
 archivesBaseName="NavigationDrawerManager"
-version '2.0'
+version '2.2'
 group 'com.BoardiesITSolutions'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1"
+    compileSdkVersion 28
+    //buildToolsVersion "21.1"
 
     defaultConfig {
         archivesBaseName="NavigationDrawerManager"
-        applicationId "com.BoardiesITSolutions.NavigationDrawerManager"
-        minSdkVersion 14
-        targetSdkVersion 21
-        versionCode 2
-        versionName = '2.0'
+        //applicationId "com.BoardiesITSolutions.NavigationDrawerManager"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 4
+        versionName = '2.2'
     }
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            debuggable false
         }
     }
 
@@ -47,13 +48,14 @@ android {
         }
     }
 
-    libraryVariants.all {variant ->
-        variant.outputs.each { output ->
+
+    libraryVariants.all { variant ->
+        variant.outputs.all { output ->
             def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.aar'))
-            {
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
                 def fileName = "${archivesBaseName}-${version}.aar"
-                output.outputFile = new File(outputFile.parent, fileName)
+                //output.outputFile = new File(outputFile.parent, fileName)
+                outputFileName = fileName
             }
         }
     }
@@ -61,10 +63,10 @@ android {
 
 def getArtifactFullPath()
 {
-    return "C:/Users/Chris/AndroidStudio/NavigationDrawerManager/NavigationDrawerManager/build/outputs/aar/${project.name}-${project.version}.aar"
+    return "D:/AndroidStudioProjects/NavigationDrawerManager/NavigationDrawerManager/build/outputs/aar/${project.name}-${project.version}.aar"
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:21.0.0'
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    implementation 'com.android.support:support-v4:28.0.0-rc01'
+    implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
 }
